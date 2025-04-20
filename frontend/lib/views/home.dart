@@ -47,8 +47,20 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                onPressed: () {},
-                child: Text('Post', style: GoogleFonts.poppins(color: Colors.white),),
+                onPressed: () async {
+                  await _postController.createPost(
+                      content: _textController.text.trim());
+                  _textController.clear();
+                  _postController.getAllPosts();
+                },
+                child: Obx(() {
+                  return _postController.isLoading.value
+                      ? const CircularProgressIndicator()
+                      : Text(
+                          'Post',
+                          style: GoogleFonts.poppins(color: Colors.white),
+                        );
+                }),
               ),
               const SizedBox(height: 30),
               Text('Posts'),
@@ -57,15 +69,14 @@ class _HomePageState extends State<HomePage> {
                 return _postController.isLoading.value
                     ? const Center(child: CircularProgressIndicator())
                     : ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _postController.posts.value.length,
-                      itemBuilder: (context, index) {
-                        return PostData(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: _postController.posts.value.length,
+                        itemBuilder: (context, index) {
+                          return PostData(
                             post: _postController.posts.value[index],
-                        );
-                      }
-                    );
+                          );
+                        });
               }),
             ],
           ),
