@@ -15,5 +15,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('feeds', FeedController::class);
     Route::post('/like/{feed_id}', [FeedController::class, 'likePost']);
+    Route::post('/comment/{feed_id}', [FeedController::class, 'comment']);
+    Route::get('/comments/{feed_id}', [FeedController::class, 'getComments']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });

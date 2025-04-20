@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/views/home.dart';
 import 'package:frontend/views/login_page.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,9 +11,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final box = GetStorage();
+    final token = box.read('token');
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Forum App',
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginPage(),
+      home: token == null ? const LoginPage() : const HomePage()
     );
   }
 }
